@@ -31,20 +31,19 @@ track_id integer references track(id),
 collection_id integer references collection(id));
 
 
-select max(duration) from track;
-select title from track WHERE duration > 210;
-select title from collection WHERE year_of_release > 2018 and year_of_release < 2021;
+select ntitle, duration from track WHERE duration = (select max(duration) from track);
+select title from track WHERE duration >= 210;
+select title from collection WHERE year_of_release >= 2018 and year_of_release < 2021;
 select name from performers WHERE name NOT LIKE '%% %%';
-select title from track WHERE title LIKE '%My%';
+select title from track WHERE title iLIKE '%my%';
 
 select genre_id, count(performers_id) from genre_performers
 group by genre_id
 order by count(performers_id) desc;
 
-select album.title, album.year_of_release, count(track.title) from album
+select count(track.title) from album
 join track on track.album_id = album.id
-where album.year_of_release between 2019 and 2020
-group by album.title, album.year_of_release;
+where album.year_of_release between 2019 and 2020;
 
 
 SELECT album.title, avg(track.duration) FROM album
@@ -55,7 +54,7 @@ ORDER BY avg(track.duration);
 
 select DISTINCT performers.name from performers
 where performers.name NOT IN
-select DISTINCT performers.name from performers
+(select DISTINCT performers.name from performers
 join performers_album on performers.id = performers_album.performers_id
 join album on performers_album.album_id = album.id
 where album.year_of_release = 2020)
