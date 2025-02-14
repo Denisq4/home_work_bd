@@ -31,11 +31,15 @@ track_id integer references track(id),
 collection_id integer references collection(id));
 
 
-select ntitle, duration from track WHERE duration = (select max(duration) from track);
+select title, duration from track WHERE duration = (select max(duration) from track);
 select title from track WHERE duration >= 210;
 select title from collection WHERE year_of_release >= 2018 and year_of_release < 2021;
 select name from performers WHERE name NOT LIKE '%% %%';
-select title from track WHERE title iLIKE '%my%';
+select title from track
+where title ILIKE 'My%'
+or title ILIKE '%my'
+or title ILIKE '%my%'
+or title ILIKE 'My';
 
 select genre_id, count(performers_id) from genre_performers
 group by genre_id
