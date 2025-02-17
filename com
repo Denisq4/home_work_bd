@@ -1,22 +1,35 @@
 create table genre(id serial primary key,
 title varchar(30));
-
+insert into genre(title)values
+('Rap'),('Rock'),('Pop');
 
 create table performers(id serial primary key,
 name varchar(20));
+insert into performers(name)values
+('Eminem'),('Rammstein'),('Limp_Bizkit'),('Ledy_Gaga');
 
 create table album(id serial primary key,
 title varchar(20),
 year_of_release integer CHECK(year_of_release > 1990 AND year_of_release  < 2024));
+insert into album(title,year_of_release)values
+('The Eminem Show', 2002),('Mutter', 2001),('Gold_Cobra', 2011),('The_Fame', 2020);
 
 create table track(id serial primary key,
 title varchar(15),
 duration integer,
 album_id integer references album(id));
+insert into track(title, duration, album_id)values
+('Business' , 251, 1),('Without Me' ,291, 1),('Soldier', 226, 1),
+('Sonne', 272, 2),('Zwitter', 257, 2),('My', 292, 2),
+('Summerboy', 254, 4),('The_Fame', 222, 4),('Money_Honey', 170, 4),
+('Shotgun', 272, 3),('Loser', 293, 3),('Cold_Cobra', 233, 3);
 
 create table collection(id serial primary key,
 title varchar(15),
 year_of_release integer CHECK(year_of_release > 1990 AND year_of_release  < 2024));
+insert into collection(title, year_of_release)values
+('random', 2020), ('fantasy', 2019), ('yes_of_god', 2015),('No_no', 2019);
+
 
 create table genre_performers(id serial primary key,
 genre_id integer references genre(id),
@@ -31,19 +44,6 @@ track_id integer references track(id),
 collection_id integer references collection(id));
 
 
-insert into genre(title)values
-('Rap'),('Rock'),('Pop');
-insert into performers(name)values
-('Eminem'),('Rammstein'),('Limp_Bizkit'),('Ledy_Gaga');
-insert into album(title,year_of_release)values
-('The Eminem Show', 2002),('Mutter', 2001),('Gold_Cobra', 2011),('The_Fame', 2020);
-insert into track(title, duration, album_id)values
-('Business' , 251, 1),('Without Me' ,291, 1),('Soldier', 226, 1),
-('Sonne', 272, 2),('Zwitter', 257, 2),('My', 292, 2),
-('Summerboy', 254, 4),('The_Fame', 222, 4),('Money_Honey', 170, 4),
-('Shotgun', 272, 3),('Loser', 293, 3),('Cold_Cobra', 233, 3);
-insert into collection(title, year_of_release)values
-('random', 2020), ('fantasy', 2019), ('yes_of_god', 2015),('No_no', 2019);
 
 
 select title, duration from track WHERE duration = (select max(duration) from track);
@@ -51,9 +51,9 @@ select title from track WHERE duration >= 210;
 select title from collection WHERE year_of_release >= 2018 and year_of_release < 2021;
 select name from performers WHERE name NOT LIKE '%% %%';
 select title from track
-where title ILIKE 'My%'
-or title ILIKE '%my'
-or title ILIKE '%my%'
+where title ILIKE 'My %'
+or title ILIKE '% my'
+or title ILIKE '% my%'
 or title ILIKE 'My';
 
 select genre_id, count(performers_id) from genre_performers
