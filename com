@@ -53,7 +53,7 @@ select name from performers WHERE name NOT LIKE '%% %%';
 select title from track
 where title ILIKE 'My %'
 or title ILIKE '% my'
-or title ILIKE '% my%'
+or title ILIKE '% my %'
 or title ILIKE 'My';
 
 select genre_id, count(performers_id) from genre_performers
